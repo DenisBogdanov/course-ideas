@@ -2,6 +2,7 @@ package ru.bogdanium;
 
 import ru.bogdanium.model.CourseIdea;
 import ru.bogdanium.model.CourseIdeaDAO;
+import ru.bogdanium.model.NotFoundException;
 import ru.bogdanium.model.SimpleCourseIdeaDAO;
 import spark.ModelAndView;
 import spark.template.handlebars.HandlebarsTemplateEngine;
@@ -71,6 +72,14 @@ public class Main {
             idea.addVoter(req.attribute("username"));
             res.redirect("/ideas");
             return null;
+        });
+
+        exception(NotFoundException.class, (e, req, res) -> {
+            res.status(404);
+            HandlebarsTemplateEngine engine = new HandlebarsTemplateEngine();
+            String html = engine.render(
+                    new ModelAndView(null, "not-found.hbs"));
+            res.body(html);
         });
     }
 }

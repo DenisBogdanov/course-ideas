@@ -1,6 +1,11 @@
+{{#partial "title"}}
+    Course idea - {{ idea.title }}
+{{/partial}}
+
 {{#partial "content"}}
 
     <h1>{{ idea.title }}</h1>
+    <p>Offered by {{ idea.creator }}</p>
     <h2>{{ idea.voteCount }} Voters</h2>
     <ul>
         {{#each idea.voters}}
@@ -12,10 +17,6 @@
         <button>Vote</button>
     </form>
 
-{{/partial}}
-
-{{#partial "title"}}
-    Course idea - {{ idea.title }}
 {{/partial}}
 
 {{> base.hbs }}

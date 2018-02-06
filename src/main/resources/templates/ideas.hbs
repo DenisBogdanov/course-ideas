@@ -1,15 +1,19 @@
+{{#partial "title"}}
+    Course Ideas
+{{/partial}}
+
 {{#partial "content"}}
 
     <h1>Current Ideas</h1>
 
     <ul>
         {{#each ideas}}
-            <form action="/ideas/{{ slug }}/vote" method="post">
-                <li>
+            <li>
+                <form action="/ideas/{{ slug }}/vote" method="post">
                     <a href="/ideas/{{ slug }}">{{ title }}</a> ({{ voteCount }} votes)
                     <button>Vote</button>
-                </li>
-            </form>
+                </form>
+            </li>
         {{/each}}
     </ul>
 

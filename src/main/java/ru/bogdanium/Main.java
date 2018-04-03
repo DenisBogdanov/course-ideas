@@ -6,6 +6,7 @@ import ru.bogdanium.model.NotFoundException;
 import ru.bogdanium.model.SimpleCourseIdeaDao;
 import spark.ModelAndView;
 import spark.Request;
+import spark.Response;
 import spark.template.handlebars.HandlebarsTemplateEngine;
 
 import java.util.HashMap;
@@ -24,18 +25,13 @@ public class Main {
         CourseIdeaDao dao = new SimpleCourseIdeaDao();
 
         before((req, res) -> {
-            if (req.cookie("username") != null) {
+            if (req.cookie("username") != null && !req.cookie("username").trim().equals("")) {
                 req.attribute("username", req.cookie("username"));
             }
         });
 
-        before("/ideas", (req, res) -> {
-            if (req.attribute("username") == null) {
-                setFlashMessage(req, "Whoops, please sign in first!");
-                res.redirect("/");
-                halt();
-            }
-        });
+        before("/ideas", Main::redirectToStartPageUnauthorizedUser);
+        before("/ideas/*", Main::redirectToStartPageUnauthorizedUser);
 
         get("/", (req, res) -> {
             Map<String, String> model = new HashMap<>();
@@ -89,6 +85,13 @@ public class Main {
             return null;
         });
 
+        get("/logout", (req, res) -> {
+            res.removeCookie("username");
+            req.session().removeAttribute("username");
+            res.redirect("/");
+            return null;
+        });
+
         exception(NotFoundException.class, (e, req, res) -> {
             res.status(404);
             HandlebarsTemplateEngine engine = new HandlebarsTemplateEngine();
@@ -96,6 +99,14 @@ public class Main {
                     new ModelAndView(null, "not-found.hbs"));
             res.body(html);
         });
+    }
+
+    private static void redirectToStartPageUnauthorizedUser(Request req, Response res) {
+        if (req.attribute("username") == null) {
+            setFlashMessage(req, "Whoops, please sign in first!");
+            res.redirect("/");
+            halt();
+        }
     }
 
     private static void setFlashMessage(Request req, String message) {

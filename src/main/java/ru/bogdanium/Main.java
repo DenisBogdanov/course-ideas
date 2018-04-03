@@ -1,9 +1,9 @@
 package ru.bogdanium;
 
 import ru.bogdanium.model.CourseIdea;
-import ru.bogdanium.model.CourseIdeaDAO;
+import ru.bogdanium.model.CourseIdeaDao;
 import ru.bogdanium.model.NotFoundException;
-import ru.bogdanium.model.SimpleCourseIdeaDAO;
+import ru.bogdanium.model.SimpleCourseIdeaDao;
 import spark.ModelAndView;
 import spark.Request;
 import spark.template.handlebars.HandlebarsTemplateEngine;
@@ -21,7 +21,7 @@ public class Main {
 
         staticFileLocation("/public");
 
-        CourseIdeaDAO dao = new SimpleCourseIdeaDAO();
+        CourseIdeaDao dao = new SimpleCourseIdeaDao();
 
         before((req, res) -> {
             if (req.cookie("username") != null) {

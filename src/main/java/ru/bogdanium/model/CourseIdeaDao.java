@@ -2,7 +2,7 @@ package ru.bogdanium.model;
 
 import java.util.List;
 
-public interface CourseIdeaDAO {
+public interface CourseIdeaDao {
 
     boolean add(CourseIdea idea);
 

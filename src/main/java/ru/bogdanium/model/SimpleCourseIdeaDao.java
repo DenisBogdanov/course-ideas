@@ -3,12 +3,15 @@ package ru.bogdanium.model;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SimpleCourseIdeaDAO implements CourseIdeaDAO {
+public class SimpleCourseIdeaDao implements CourseIdeaDao {
 
     private List<CourseIdea> ideas;
 
-    public SimpleCourseIdeaDAO() {
+    public SimpleCourseIdeaDao() {
         ideas = new ArrayList<>();
+        ideas.add(new CourseIdea("Spark with DB", "Fedor"));
+        ideas.add(new CourseIdea("Spark testing", "Mika"));
+        ideas.add(new CourseIdea("Spark CRUD app", "Annet"));
     }
 
     @Override
